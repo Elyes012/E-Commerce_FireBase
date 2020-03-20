@@ -1,0 +1,30 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/interfaces/user.interface';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css']
+})
+export class SignupComponent implements OnInit {
+  errorMessage: string = '';
+
+  constructor(private as: AuthService, private us: UserService, private route: Router) { }
+
+  ngOnInit() {
+  }
+
+  signup(form) {
+    let data: User = form.value;
+    this.as.signup(data.email, data.password)
+    .then(res => {
+      this.errorMessage = ''
+      this.us.addNewUsers(res.user.uid, data.name, data.address).then(() => this.route.navigate(['/']))
+    })
+    .catch(err => {
+      this.errorMessage= err.message})
+  }
+}

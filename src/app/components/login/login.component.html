@@ -1,0 +1,19 @@
+<div class="body">
+    <h2 class="text-center">Login</h2>
+    <form #f="ngForm" (ngSubmit)="login(f)">
+        
+
+        <input ngModel name="email" #email="ngModel" type="email" class="form-control" placeholder="Email" required email>
+        <div class="div alert alert-danger" *ngIf ="email.touched && email.errors?.required" >Email is required</div>
+        <div class="div alert alert-danger" *ngIf ="email.touched && email.errors?.email" >Please add valid email</div>
+
+        <input ngModel name="password" #password="ngModel" type="password" class="form-control" placeholder="Password" required minlength="6">
+        <div class="div alert alert-danger" *ngIf ="password.touched && password.errors?.required" >password is required</div>
+        <div class="div alert alert-danger" *ngIf ="password.touched && password.errors?.minlength" >Min 6 caracteres</div>
+
+
+        <button class="btn btn-primary" [disabled]="f.invalid " (click)="login(f)">Create Account</button>
+    </form>
+</div>
+
+
