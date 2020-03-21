@@ -3,6 +3,9 @@ import { Good } from 'src/app/interfaces/goods.interface';
 import { GoodsService } from 'src/app/services/goods.service';
 import { element } from 'protractor';
 import { Subscription } from 'rxjs';
+import { CartService } from 'src/app/services/cart.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   goods: Good[] = []
   goodObservable : Subscription
   add : number = -1
-  constructor(private gs: GoodsService) { }
+  constructor(private gs: GoodsService, private cs: CartService, private as: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.goodObservable = this.gs.getAllGoods().subscribe(data => {
@@ -32,6 +35,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
   addToCart(index : number) {
-   this.add = +index
+    if (this.as.userId) {
+      this.add = +index
+     
+
+    } else  this.router.navigate(['/login'])
+   
+  }
+
+  buy(amount : number) {
+    console.log('clcik cart')
+    let selectedGood = this.goods[this.add]
+    let data = {
+      name : selectedGood.name,
+      amount: +amount,
+      price: selectedGood.price
+    }
+    this.cs.addToCart(data).then(() => this.add == -1)
   }
 }

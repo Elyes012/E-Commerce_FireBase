@@ -21,6 +21,8 @@ import { AngularFirestoreModule } from "@angular/fire/firestore";
 // ajout module authentification
 import { AngularFireAuthModule } from "@angular/fire/auth";
 
+import { AngularFireStorageModule } from "@angular/fire/storage";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +51,8 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
       measurementId: "G-RRTQYQJ3K8"
     }),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
